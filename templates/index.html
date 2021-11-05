@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<!--Created by: Anthony Toribio-->
+<html lang="eng">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, inital-scale=1, shrink-to-fit=no">
+
+        <title>Daily MLB Home Runs</title>
+        <link rel="stylesheet" type="text/css" href="../static/homerun.css">
+        <script type="text/javascript">
+            var all_hrs = {{hrsList|tojson}};
+            var all_hrs_size = {{size|tojson}};
+            var index = {{index|tojson}};
+
+            function changeContentsNext() {
+                index++;
+                if (index < all_hrs_size) {
+                    document.getElementById("playerImage").src = all_hrs[index][3];
+                    document.getElementById("playerName").textContent = all_hrs[index][0];
+                    document.getElementById("teamOn").textContent = all_hrs[index][2];
+                }
+                else {
+                    index--;
+                }
+            }
+
+            function changeContentsPrev(){
+                index--;
+                if (all_hrs_size != 0 && index >= 0) {
+                    document.getElementById("playerImage").src = all_hrs[index][3];
+                    document.getElementById("playerName").textContent = all_hrs[index][0];
+                    document.getElementById("teamOn").textContent = all_hrs[index][2];
+                }
+                else {
+                    index--;
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <div id="banner"> <!-- This div will hold the site's name and logo -->
+            <h1 id="siteTitle">Daily MLB Home Runs</h1>
+        </div>
+        <div id="bodyPage">
+            <div id="totalRuns">
+                Total Runs Hit Today: {{ totalHrs }}
+            </div>
+            <br>
+
+            <div id="imageLocation">
+                {% if hrsList|length == 0%}
+                    <img id="playerImage1" src="../static/images/No_Homeruns.jpg" 
+                        width="325" height="290" alt="Image of the baseball player that hit a homerun today.">
+                {% else %}
+                    <img id="playerImage" src= {{hrsList[index][3]}} 
+                         width="325" height="290" alt="Image of the baseball player that hit a homerun today.">
+                {% endif %}
+                <div class="buttonContainer">
+                    <button id="leftButton" type="button" onclick="changeContentsPrev()">Previous</button>
+                    <button id="rightButton" type="button" onclick="changeContentsNext()">Next</button>
+                </div>
+            </div>
+
+            <div id="playerDetails">
+                {% if hrsList|length == 0 %}
+                    <p>No Home Runs Were Hit Today.</p>
+                {% else %}
+                    <p>Player Name: <span id="playerName">{{hrsList[index][0]}}</span></p>
+                    <p>Team: <span id="teamOn">{{hrsList[index][2]}}</span></p>
+                {% endif %}    
+            </div>
+
+            <div id="footer">
+                <br>
+                <span id="Creators">Created by Robert Toribio and Anthony Toribio</span>
+            </div>
+
+        </div>
+    </body>
+</html>
